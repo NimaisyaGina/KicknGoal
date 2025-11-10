@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kickngoal/widgets/left_drawer.dart';
+// Impor widget product_card
+import 'package:kickngoal/widgets/product_card.dart';
+import 'package:kickngoal/screens/productlist_form.dart'; // supaya bisa navigasi langsung juga
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
@@ -6,6 +10,12 @@ class MyHomePage extends StatelessWidget {
   final String nama = "Nimaisya Gina Herapati"; //nama
   final String npm = "2406429885"; //npm
   final String kelas = "C"; //kelas
+
+  final List<ItemHomepage> items = [
+    ItemHomepage("See Kick n Goal Products", Icons.sports_soccer),
+    ItemHomepage("Tambah Produk", Icons.add), // ubah teks jadi Tambah Produk agar konsisten
+    ItemHomepage("Logout", Icons.logout),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +30,7 @@ class MyHomePage extends StatelessWidget {
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
+      drawer: const LeftDrawer(), // tambahkan drawer agar konsisten
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -49,18 +60,19 @@ class MyHomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16.0),
 
-                  // Tombol All Products (Biru)
+                  // Tombol All Products (Biru) -> placeholder
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue, // Warna biru untuk tombol All Products
-                      minimumSize: const Size(200, 60), // Ukuran tombol lebih besar
+                      backgroundColor: Colors.blue,
+                      minimumSize: const Size(200, 60),
                     ),
                     onPressed: () {
+                      // Bisa diganti navigasi ke halaman produk list jika ada
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text("Kamu telah menekan tombol All Products")),
                       );
                     },
-                    icon: const Icon(Icons.newspaper, color: Colors.white),
+                    icon: const Icon(Icons.sports_soccer, color: Colors.white),
                     label: const Text(
                       'All Products',
                       style: TextStyle(color: Colors.white),
@@ -68,18 +80,18 @@ class MyHomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16.0),
 
-                  // Tombol My Products (Hijau)
+                  // Tombol My Products (Hijau) -> placeholder
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green, // Warna hijau untuk tombol My Products
-                      minimumSize: const Size(200, 60), // Ukuran tombol lebih besar
+                      backgroundColor: Colors.green,
+                      minimumSize: const Size(200, 60),
                     ),
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text("Kamu telah menekan tombol My Products")),
                       );
                     },
-                    icon: const Icon(Icons.shopping_bag, color: Colors.white),
+                    icon: const Icon(Icons.inventory, color: Colors.white),
                     label: const Text(
                       'My Products',
                       style: TextStyle(color: Colors.white),
@@ -87,15 +99,17 @@ class MyHomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16.0),
 
-                  // Tombol Create Product (Merah)
+                  // Tombol Create Product (Merah) -> navigasi ke form tambah produk
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red, // Warna merah untuk tombol Create Product
-                      minimumSize: const Size(200, 60), // Ukuran tombol lebih besar
+                      backgroundColor: Colors.red,
+                      minimumSize: const Size(200, 60),
                     ),
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Kamu telah menekan tombol Create Product")),
+                      // navigasi ke halaman ProductFormPage
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ProductFormPage()),
                       );
                     },
                     icon: const Icon(Icons.add, color: Colors.white),
@@ -117,7 +131,6 @@ class MyHomePage extends StatelessWidget {
 class InfoCard extends StatelessWidget {
   final String title;
   final String content;
-
   const InfoCard({super.key, required this.title, required this.content});
 
   @override
@@ -140,4 +153,10 @@ class InfoCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class ItemHomepage {
+  final String name;
+  final IconData icon;
+  ItemHomepage(this.name, this.icon);
 }

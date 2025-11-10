@@ -84,3 +84,19 @@ Tugas 7
 --> Hot reload merupakan cara yang paling mudah dan cepat untuk menerapkan perubahan, memperbaiki bug, membuat antarmuka pengguna (UI), dan menambah fitur. Proses ini hanya memerlukan waktu sekitar satu detik untuk dijalankan. Pada hot reload, status yang telah disimpan tidak akan hilang. Namun, hot reload tidak dapat digunakan jika aplikasi dihentikan (killed). Sedangkan hot restart  memiliki fungsionalitas yang sedikit berbeda dibandingkan dengan hot reload. Meskipun lebih cepat dibandingkan dengan fungsi restart penuh, hot restart menghapus status yang telah disimpan dalam aplikasi kita. Kode akan dikompilasi ulang sepenuhnya dan aplikasi akan dimulai dari keadaan default. Meskipun memakan waktu lebih lama dibandingkan dengan hot reload, hot restart tetap lebih cepat daripada restart penuh.
 
 
+Tugas 8
+1. Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement() pada Flutter. Dalam kasus apa sebaiknya masing-masing digunakan pada aplikasi Football Shop kamu?
+--> Perbedaan utama antara Navigator.push() dan Navigator.pushReplacement() terletak pada pengelolaan tumpukan layar. Metode push() menambahkan layar baru di atas layar sebelumnya tanpa menghapusnya, sehingga pengguna masih bisa kembali ke layar sebelumnya sehingga cocok untuk navigasi yang memerlukan fitur back, seperti dari halaman utama ke Form Tambah Produk. Sementara itu, pushReplacement() mengganti layar saat ini dengan layar baru dan menghapus layar sebelumnya dari tumpukan. Pendekatan ini ideal untuk navigasi dari drawer atau setelah proses login/logout agar tidak terjadi penumpukan layar dan tombol back hanya membawa pengguna ke halaman yang relevan atau keluar dari aplikasi.
+
+2. Bagaimana kamu memanfaatkan hierarchy widget seperti Scaffold, AppBar, dan Drawer untuk membangun struktur halaman yang konsisten di seluruh aplikasi?
+--> Scaffold berperan sebagai kerangka utama setiap halaman, menjadi wadah bagi komponen seperti AppBar dan Drawer. AppBar memastikan setiap layar memiliki judul dan akses ke Drawer yang konsisten. Penggunaan widget LeftDrawer() yang sama di semua halaman menjaga tampilan serta opsi navigasi utama (Home dan Create Products) tetap seragam. Dengan struktur ini, aplikasi memiliki identitas visual dan pengalaman pengguna yang konsisten di setiap halaman.
+
+
+3. Dalam konteks desain antarmuka, apa kelebihan menggunakan layout widget seperti Padding, SingleChildScrollView, dan ListView saat menampilkan elemen-elemen form? Berikan contoh penggunaannya dari aplikasi kamu.
+--> Dalam desain antarmuka, layout widget berperan penting terutama pada formulir.
+Padding digunakan untuk memberi jarak di sekitar elemen seperti TextFormField (Nama Produk, Harga, Deskripsi) agar tampilan lebih rapi dan mudah dibaca. Sementara SingleChildScrollView berfungsi membuat seluruh formulir bisa digulir, mencegah masalah pixel overflow saat keyboard muncul di layar kecil, sehingga semua elemen—termasuk tombol Save—tetap dapat dijangkau pengguna.
+
+
+4. Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
+--> Untuk menjaga konsistensi identitas visual sesuai brand toko, penyesuaian tema warna di main.dart menjadi langkah penting. Dengan menetapkan primarySwatch Colors.blue, warna biru diterapkan secara otomatis ke berbagai komponen seperti AppBar, menciptakan keseragaman tampilan. Selain itu, penggunaan warna fungsional biru untuk All Products, hijau untuk My Products, dan merah untuk Create Product yangmembuat antarmuka tampak menarik sekaligus mudah dipahami pengguna.
+

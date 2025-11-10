@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kickngoal/menu.dart';
+// Import file menu.dart yang sudah dipindahkan ke folder screens
+import 'package:kickngoal/screens/menu.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -7,29 +9,17 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Kick n Goal',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(secondary: Colors.blueAccent[400]),
+        // Tema warna diubah sesuai Tutorial 6 [cite: 1415]
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
+            .copyWith(secondary: Colors.blueAccent[400]),
+        useMaterial3: true,
       ),
+      // Home diubah sesuai Tutorial 6 [cite: 1425, 1426]
       home: MyHomePage(),
     );
   }
