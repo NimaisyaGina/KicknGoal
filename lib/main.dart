@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-// Import file menu.dart yang sudah dipindahkan ke folder screens
 import 'package:kickngoal/screens/menu.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:kickngoal/screens/login.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -11,16 +14,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Kick n Goal',
-      theme: ThemeData(
-        // Tema warna diubah sesuai Tutorial 6 [cite: 1415]
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-            .copyWith(secondary: Colors.blueAccent[400]),
-        useMaterial3: true,
+    return Provider<CookieRequest>(
+      create: (_) {
+        CookieRequest request = CookieRequest();
+        return request;
+      },
+      child: MaterialApp(
+        title: 'Kick n Goal',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
+              .copyWith(secondary: Colors.blueAccent[400]),
+          useMaterial3: true,
+        ),
+        home: const LoginPage(),
       ),
-      // Home diubah sesuai Tutorial 6 [cite: 1425, 1426]
-      home: MyHomePage(),
     );
   }
 }

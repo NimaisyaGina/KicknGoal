@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 // Impor drawer [cite: 191]
 import 'package:kickngoal/widgets/left_drawer.dart';
+import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:kickngoal/screens/menu.dart';
 
 class ProductFormPage extends StatefulWidget {
   const ProductFormPage({super.key});
@@ -12,8 +16,8 @@ class _ProductFormPageState extends State<ProductFormPage> {
   // [cite: 226]
   final _formKey = GlobalKey<FormState>();
   // [cite: 236-241]
-  String _title = "";
-  String _content = "";
+  String _name = "";
+  String _description = "";
   String _price = ""; // simpan sebagai string lalu parse saat validasi
   String _category = ""; // default akan di-set ke first category di initState
   String _thumbnail = "";
@@ -41,6 +45,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     // [cite: 203]
     return Scaffold(
       appBar: AppBar(
@@ -75,7 +80,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   ),
                   onChanged: (String? value) {
                     setState(() {
-                      _title = value ?? "";
+                      _name = value ?? "";
                     });
                   },
                   validator: (String? value) {
@@ -145,7 +150,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   ),
                   onChanged: (String? value) {
                     setState(() {
-                      _content = value ?? "";
+                      _description = value ?? "";
                     });
                   },
                   validator: (String? value) {
@@ -239,58 +244,48 @@ class _ProductFormPageState extends State<ProductFormPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.indigo),
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Tampilkan dialog dengan data yang diambil dari state vars
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('Berita berhasil disimpan!'),
-                            content: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Judul: ${_title.isEmpty ? "-" : _title}'),
-                                  Text('Isi: ${_content.isEmpty ? "-" : _content}'),
-                                  Text('Kategori: ${_category}'),
-                                  Text('Thumbnail: ${_thumbnail.isEmpty ? "-" : _thumbnail}'),
-                                  Text('Unggulan: ${_isFeatured ? "Ya" : "Tidak"}'),
-                                ],
-                              ),
-                            ),
-                            actions: [
-                              TextButton(
-                                child: const Text('OK'),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      ).then((_) {
-                        // Reset hanya setelah dialog ditutup agar dialog tetap menampilkan data
-                        _formKey.currentState!.reset();
-
-                        setState(() {
-                          _title = "";
-                          _content = "";
-                          _category = _categories.first;
-                          _thumbnail = "";
-                          _isFeatured = false;
-                        });
-                      });
-                    }
-                  },
-                  child: const Text(
-                    "Simpan",
-                    style: TextStyle(color: Colors.white),
-                  ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.indigo),
                 ),
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    // TODO: Ganti URL dengan URL aplikasi Django kamu
+                    // Jika pakai Android emulator gunakan: http://10.0.2.2:8000
+                    // Jika pakai iOS simulator atau web browser gunakan: http://localhost:8000
+                    final response = await request.postJson(
+                      "http://localhost:8000/create-flutter/",
+                      jsonEncode({
+                        "name": _name,
+                        "description": _description,
+                        "thumbnail": _thumbnail,
+                        "category": _category,
+                        "is_featured": _isFeatured,
+                      }),
+                    );
+
+                    if (!context.mounted) return;
+
+                    if (response != null && response['status'] == 'success') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Product successfully saved!")),
+                      );
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyHomePage()),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Something went wrong, please try again.")),
+                      );
+                    }
+                  }
+                },
+                child: const Text(
+                  "Simpan",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+
               ),
             ),
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kickngoal/screens/menu.dart';
 // Impor halaman productlist_form.dart dari folder screens
 import 'package:kickngoal/screens/productlist_form.dart';
+import 'package:kickngoal/screens/product_entry_list.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -41,14 +42,22 @@ class LeftDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.home_outlined),
-            title: const Text('Halaman Utama'),
+            leading: const Icon(Icons.home),
+            title: const Text('Homepage'),
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => MyHomePage(),
-                ),
+                MaterialPageRoute(builder: (context) => MyHomePage()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.list),
+            title: const Text('Product List'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const productEntryListPage()),
               );
             },
           ),
@@ -58,9 +67,7 @@ class LeftDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const ProductFormPage(),
-                ),
+                MaterialPageRoute(builder: (context) => const ProductFormPage()),
               );
             },
           ),
